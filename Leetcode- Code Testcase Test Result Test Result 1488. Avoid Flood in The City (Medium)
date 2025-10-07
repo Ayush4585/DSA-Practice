@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        int n = rains.size();
+
+        unordered_map<int, int> map;  
+        set<int> dry;              
+        vector<int> ans(n, 1);     
+
+        for (int day = 0; day < n; day++) {
+            int lake = rains[day];
+
+            if (lake == 0) {
+                dry.insert(day);                     
+            } else {
+                ans[day] = -1;                 
+                if (map.count(lake)) {
+                    auto it = dry.lower_bound(map[lake] + 1);  
+                    if (it == dry.end()) {
+                        return {};
+                    }
+                    ans[*it] = lake;                     
+                    dry.erase(it);
+                }
+                map[lake] = day;                        
+            }
+        }
+
+        return ans;
+    }
+};
