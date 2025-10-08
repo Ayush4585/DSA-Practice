@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
+        
+        int n=spells.size(),m=potions.size();
+        
+        sort(begin(potions),end(potions));
+         vector<int>ans(n);
+         cout<<spells.size()<<" "<<ans.size();
+
+        for(int i=0;i<n;i++){
+            long long minRequired=(long long)success/spells[i];
+            if(minRequired== 0){
+                ans[i]=m;
+                continue;
+            }
+            if(success%spells[i]>0){
+                minRequired++;
+            }
+            int firstIndex=lower_bound(begin(potions),end(potions),minRequired)-begin(potions);
+            int noOfElements=m-firstIndex;
+            ans[i]=noOfElements;
+        }
+       
+        return ans;
+    }
+};
