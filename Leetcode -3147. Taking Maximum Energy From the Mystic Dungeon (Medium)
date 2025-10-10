@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int maximumEnergy(vector<int>& energy, int k) {
+        int numMagicians = energy.size();
+        
+        // Store the total energy obtainable starting from each position
+        vector<int> maxEnergyFromPosition(numMagicians);
+        int maxTotalEnergy = INT_MIN;
+        
+        // Phase 1: Calculate energy for the first k positions (chain leaders)
+        // These represent the k different sequences we can follow
+        for (int startPos = 0; startPos < k; startPos++) {
+            int currentPos = startPos;
+            int chainEnergy = 0;
+            
+            // Traverse the entire chain starting from startPos
+            while (currentPos < numMagicians) {
+                chainEnergy += energy[currentPos];
+                currentPos += k;
+            }
+            
+            maxEnergyFromPosition[startPos] = chainEnergy;
+            maxTotalEnergy = max(maxTotalEnergy, chainEnergy);
+        }
+        
+        // Phase 2: Calculate energy for remaining positions using dynamic programming
+        // For position i, we can compute it using position (i-k)
+        for (int currentPos = k; currentPos < numMagicians; currentPos++) {
+            int previousChainPos = currentPos - k;
+        
+            int energyFromHere = maxEnergyFromPosition[previousChainPos] 
+                                - energy[previousChainPos];
+            
+            maxEnergyFromPosition[currentPos] = energyFromHere;
+            maxTotalEnergy = max(maxTotalEnergy, energyFromHere);
+        }
+        
+        return maxTotalEnergy;
+    }
+};
