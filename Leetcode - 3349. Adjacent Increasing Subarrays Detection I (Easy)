@@ -1,0 +1,27 @@
+//T.C - O(n)
+class Solution {
+public:
+    bool hasIncreasingSubarrays(vector<int>& nums, int k) {
+        int n = nums.size();
+        int currLength = 1;
+        int prevLength = 0;
+        for(int i = 1; i < n; i++) {
+            if(nums[i] > nums[i-1]) {
+                currLength++;
+            } else { 
+                prevLength = currLength;
+                currLength = 1;
+            }
+
+            if(currLength >= 2*k) {
+                return true;
+            }
+
+            if(min(currLength, prevLength) >= k) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
