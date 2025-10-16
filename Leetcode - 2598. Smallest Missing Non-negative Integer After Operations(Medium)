@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findSmallestInteger(vector<int>& nums, int value) {
+        unordered_map<int,int>store;
+        for(auto ele: nums){
+            int rem = ((ele % value) + value) % value;
+            store[rem]++;
+        }
+        int missingRemainder=-1,mex=-1;
+        while(true){
+            missingRemainder++;
+            mex++;
+            missingRemainder%=value;
+            if(store.find(missingRemainder)==store.end()){
+                return mex;
+            }else{
+                store[missingRemainder]--;
+                if(store[missingRemainder]==0){
+                    store.erase(missingRemainder);
+                }
+            }
+        }
+        return -1;
+    }
+};
