@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> findMatrix(vector<int>& nums) {
+         unordered_map<int,int>store;
+         for(auto ele: nums){
+            store[ele]++;
+         }
+         vector<vector<int>>ans;
+         while (!store.empty()) {
+            vector<int> vec;
+            vector<int> toErase;
+            for (auto& ele : store) {
+                vec.push_back(ele.first);
+                store[ele.first]--;
+                if (store[ele.first] == 0) {
+                    toErase.push_back(ele.first);
+                }
+            }
+            for (auto key : toErase) {
+                store.erase(key);
+            }
+
+            ans.push_back(vec);
+        }
+
+         return ans;
+    }
+};
