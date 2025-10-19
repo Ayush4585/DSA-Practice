@@ -1,0 +1,53 @@
+
+O(n^2)
+class Solution {
+    private String rotate(String s, int b) {
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+        reverseString(sb, 0, b - 1);
+        reverseString(sb, b, sb.length() - 1);
+        return sb.toString();
+    }
+
+    private void reverseString(StringBuilder sb, int left, int right) {
+        while (left < right) {
+            char temp = sb.charAt(left);
+            sb.setCharAt(left, sb.charAt(right));
+            sb.setCharAt(right, temp);
+            left++;
+            right--;
+        }
+    }
+
+    public String findLexSmallestString(String s, int a, int b) {
+        Set<String> visited = new HashSet<>();
+        Queue<String> q = new LinkedList<>();
+        String ans = s;
+
+        q.add(s);
+        visited.add(s);
+
+        while (!q.isEmpty()) {
+            String curr = q.poll();
+            if (curr.compareTo(ans) < 0)
+                ans = curr;
+
+            char[] added = curr.toCharArray();
+            for (int i = 1; i < added.length; i += 2) {
+                int newDigit = ((added[i] - '0') + a) % 10;
+                added[i] = (char) ('0' + newDigit);
+            }
+            String addedStr = new String(added);
+            if (visited.add(addedStr)) {
+                q.add(addedStr);
+            }
+
+            String rotated = rotate(curr, b);
+            if (visited.add(rotated)) {
+                q.add(rotated);
+            }
+        }
+
+        return ans;
+    }
+}
