@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k, int numOperations) {
+        int maxValue = *max_element(begin(nums), end(nums)) + k;
+        vector<int> freq(maxValue + 1, 0);
+
+        for(int &num : nums) {
+            freq[num]++;
+        }
+        for(int i = 1; i <= maxValue; i++) {
+            freq[i] += freq[i-1];
+        }
+
+        int result = 0;
+        for(int option = 0; option <= maxValue; option++) {
+            
+            int leftIndex  = max(0, option-k); 
+            int rightIndex = min(maxValue, option+k); 
+            int totalCount  = freq[rightIndex] - (leftIndex > 0 ? freq[leftIndex-1] : 0);
+            int optionCount = freq[option] - (option > 0 ? freq[option-1] : 0);
+            int required = totalCount - optionCount;
+            
+            int maxPossibleFreq = optionCount + min(required, numOperations);
+
+            result = max(result, maxPossibleFreq);
+        }
+
+        return result;
+    }
+};
+
