@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int totalMoney(int n) {
+        //n=20 ->(1+2+3+4+5+6+7)+  (2+3+4+5+6+7+8)+        (3+4+5+6+7+8)
+        //        (1+2+3+4+5+6+7)+ (1+2+3+4+5+6+7)+(7*1)+ (1+2+3+4+5+6)+(6*2)
+
+        // rem -> number of (1+2+3+4+5+6+7) 
+        //rest -> (1+2+3+4+5+6)
+        int ans=((7)*(8))/2;
+        int rem=n/7;
+        ans*=rem;
+        int rest=n%7;
+        ans+=((rest)*(rest+1))/2;
+        ans+=(((rem-1)*(rem))/2)*7;
+        ans+=(rem*rest);
+        return ans;
+    }
+};
