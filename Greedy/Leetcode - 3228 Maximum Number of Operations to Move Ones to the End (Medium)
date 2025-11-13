@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxOperations(string s) {
+        int operations = 0;
+        int onesCountWhileInRun = 0;
+
+        int i = 0;
+        const int n = static_cast<int>(s.size());
+
+        while (i < n) {
+            if (s[i] == '1') {
+                int runOnes = 0;
+
+                while (i < n && s[i] == '1') {
+                    runOnes++;
+                    i++;
+                }
+                operations += onesCountWhileInRun;
+                onesCountWhileInRun += runOnes;
+            } else {
+                i++;
+            }
+        }
+        if (n > 0 && s[n - 1] == '0') {
+            operations += onesCountWhileInRun;
+        }
+
+        return operations;
+    }
+
+}
+;
