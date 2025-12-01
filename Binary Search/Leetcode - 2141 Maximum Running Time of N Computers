@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool check(long long time,vector<int>arr,int n){
+        long long ans=0;
+        for(auto ele:arr){
+            if(ele<time)ans+=ele;
+            else ans+=time;
+        }
+        return ans>=(n*time);
+    }
+    long long maxRunTime(int n, vector<int>& batteries) {
+        long long left=0,right=1e14;
+        long long ans=0;
+        while(left<=right){
+            long long mid=(left+right)>>1;
+            if(check(mid,batteries,n)){
+                ans=mid;
+                left=mid+1;
+            }
+            else right=mid-1;
+        }
+        return ans;
+    }
+};
