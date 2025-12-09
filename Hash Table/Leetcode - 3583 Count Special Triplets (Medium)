@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int M = 1e9+7;
+    int specialTriplets(vector<int>& nums) {
+        unordered_map<int, int> left;
+        unordered_map<int, int> right;
+        int result = 0;
+        for(int &num : nums) {
+            right[num]++;
+        }
+        for(int &num : nums) {
+            right[num]--;
+            int l  = left[num*2];
+            int r = right[num*2];
+            result = (result + (1LL * l * r)) % M;
+            left[num]++;
+        }
+        return result;
+    }
+};
