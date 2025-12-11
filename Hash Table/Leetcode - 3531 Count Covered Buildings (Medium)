@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int countCoveredBuildings(int n, vector<vector<int>>& buildings) {
+        map<int, set<int>> rows;
+        map<int, set<int>> cols; 
+        
+        for(auto& b : buildings) {
+            rows[b[0]].insert(b[1]);
+            cols[b[1]].insert(b[0]);
+        }
+        
+        int ans = 0;
+        for(auto& building : buildings) {
+            int x = building[0];
+            int y = building[1];
+            
+            auto leftIt = rows[x].lower_bound(y);
+            bool hasLeft = (leftIt != rows[x].begin());
+            
+            auto rightIt = rows[x].upper_bound(y);
+            bool hasRight = (rightIt != rows[x].end());
+            
+            auto upIt = cols[y].lower_bound(x);
+            bool hasUp = (upIt != cols[y].begin());
+            
+            auto downIt = cols[y].upper_bound(x);
+            bool hasDown = (downIt != cols[y].end());
+            
+            if(hasLeft && hasRight && hasUp && hasDown) {
+                ans++;
+            }
+        }
+        
+        return ans;
+    }
+};
