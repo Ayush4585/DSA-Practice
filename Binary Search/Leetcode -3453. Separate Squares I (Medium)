@@ -1,0 +1,38 @@
+class Solution {
+public:
+    double areaAbove(vector<vector<int>>& squares, double mid) {
+        int n = squares.size();
+        double area = 0.0;
+        for (int i = 0; i < n; i++) {
+            int x = squares[i][0];
+            int y = squares[i][1];
+            int len = squares[i][2];
+            if ((double)y >= mid) {
+                area += (double)len * len;
+            } else if ((double)(y + len) < mid) {
+                continue;
+            } else {
+                area += (double)(len * (y + len - mid));
+            }
+        }
+        return area;
+    }
+
+    double separateSquares(vector<vector<int>>& squares) {
+
+        int n = squares.size();
+        double l = 0.0, r = 1e9;
+        double totarea = areaAbove(squares, -1);
+        while (r-l>1e-5) {
+            double mid = (l) + (r - l) / 2.0;
+            double area = areaAbove(squares, mid);
+            if (2 * area > totarea) {
+                l = mid;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
+    
+};
