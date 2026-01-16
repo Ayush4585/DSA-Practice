@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int mod=1e9+7;
+    int maximizeSquareArea(int m, int n, vector<int>& hFences, vector<int>& vFences) {
+        int start=1;
+        sort(hFences.begin(),hFences.end());
+        sort(vFences.begin(),vFences.end());
+        hFences.push_back(m);
+        vFences.push_back(n);
+        unordered_set<int>store;
+        int ans=0;
+        for(int i=0;i<hFences.size();i++){
+              int curr=0;
+            for(int j=i;j<hFences.size();j++){
+                if(j==0){
+                    curr+=hFences[j]-start;
+                    store.insert(curr);
+                }
+                else{
+                    curr+=hFences[j]-hFences[j-1];
+                    store.insert(curr);
+                }
+                
+            }
+        }
+        start=1;
+        for(int i=0;i<vFences.size();i++){
+              int curr=0;
+            for(int j=i;j<vFences.size();j++){
+                if(j==0){
+                    curr+=vFences[j]-start;
+                    
+                }
+                else{
+                    curr+=vFences[j]-vFences[j-1];
+                    
+                }
+                if(store.count(curr)){
+                    ans=max(ans,curr);
+                }
+
+            }
+        }
+        long long val=(long long)ans*ans;
+        val=val%mod;
+        return val?int(val):-1;
+    }
+};
