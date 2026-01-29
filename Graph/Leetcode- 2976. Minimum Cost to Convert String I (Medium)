@@ -1,0 +1,60 @@
+class Solution {
+public:
+    long long minimumCost(string source, string target, vector<char>& original,
+                          vector<char>& changed, vector<int>& cost) {
+
+        long long INF = (long long)4e18;
+        int n = original.size(), m = source.size();
+        vector<vector<int>> adj[26];
+        for (int i = 0; i < n; i++) {
+            adj[original[i] - 'a'].push_back({changed[i] - 'a', cost[i]});
+        }
+
+        long long ans = 0;
+        long long dp[26][26];
+        fill(&dp[0][0], &dp[0][0] + 26 * 26, INF);
+        for (int i = 0; i < m; i++) {
+            int src = source[i] - 'a';
+            int dest = target[i] - 'a';
+
+            if (dp[src][dest] != INF) {
+                ans += dp[src][dest];
+                continue;
+            }
+            vector<long long> vis(26, INF);
+            set<pair<long long, int>> s;
+            vis[src] = 0;
+            s.insert({0, src});
+
+            while (!s.empty()) {
+                auto it = *s.begin();
+                int node = it.second;
+                int dist = it.first;
+                s.erase(it);
+
+                if (dist > vis[node])
+                    continue;
+
+                for (auto& edge : adj[node]) {
+                    int nextNode = edge[0];
+                    int nextdist = edge[1];
+
+                    if (vis[nextNode] > vis[node] + nextdist) {
+                        if (vis[nextNode] != 1e9)
+                            s.erase({vis[nextNode], nextNode});
+                        vis[nextNode] = vis[node] + nextdist;
+                        s.insert({vis[nextNode], nextNode});
+                    }
+                }
+            }
+
+            if(vis[dest]>=INF)return -1;
+
+            ans += vis[dest];
+            for(int i=0;i<26;i++){
+                dp[src][i]=vis[i];
+            }
+        }
+        return ans;
+    }
+};
