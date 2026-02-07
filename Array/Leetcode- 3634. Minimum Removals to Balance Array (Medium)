@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int minRemoval(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        int ans=1e9;
+        for(int ind=0;ind<nums.size();ind++){
+            int curr_mini=nums[ind];
+            long long allowed_maxi=(long long)curr_mini*k;
+            int index=upper_bound(nums.begin(), nums.end(), allowed_maxi)-nums.begin();
+            int remove=ind+(nums.size()-index);
+            ans=min(ans,remove);
+        }
+        return ans;
+    }
+};
