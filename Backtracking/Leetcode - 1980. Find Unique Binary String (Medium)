@@ -1,0 +1,34 @@
+import java.util.*;
+
+class Solution {
+
+    public boolean solve(int ind, int n, StringBuilder str, Set<String> set) {
+        if (ind == n) {
+            if (!set.contains(str.toString())) {
+                return true;
+            }
+            return false;
+        }
+
+        str.append('0');
+        if (solve(ind + 1, n, str, set)) return true;
+        str.deleteCharAt(str.length() - 1);
+
+        str.append('1');
+        if (solve(ind + 1, n, str, set)) return true;
+        str.deleteCharAt(str.length() - 1);
+
+        return false;
+    }
+
+    public String findDifferentBinaryString(String[] nums) {
+        int n = nums[0].length();
+
+        Set<String> set = new HashSet<>(Arrays.asList(nums));
+        StringBuilder str = new StringBuilder();
+
+        solve(0, n, str, set);
+
+        return str.toString();
+    }
+}
