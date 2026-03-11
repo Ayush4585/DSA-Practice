@@ -1,0 +1,42 @@
+class Solution {
+public:
+    struct PairHash {
+        size_t operator()(const pair<int,int>& p) const {
+            return hash<long long>()(((long long)p.first << 32) | (unsigned int)p.second);
+        }
+    };
+
+    int distinctPoints(string s, int k) {
+        int n = s.length();
+        int currx = 0, curry = 0;
+        unordered_set<pair<int,int>, PairHash> distinct;
+
+        for (int i = k; i < n; i++) {   
+            switch (s[i]) {
+                case 'L': currx -= 1; break;
+                case 'R': currx += 1; break;
+                case 'U': curry += 1; break;
+                case 'D': curry -= 1; break;
+            }
+        }
+        distinct.insert({currx, curry});
+
+        for (int i = 0; i < n-k; i++) {
+            switch (s[i]) {
+                case 'L': currx -= 1; break;
+                case 'R': currx += 1; break;
+                case 'U': curry += 1; break;
+                case 'D': curry -= 1; break;
+            }
+            switch (s[(i + k) % n]) {
+                case 'L': currx += 1; break;
+                case 'R': currx -= 1; break;
+                case 'U': curry -= 1; break;
+                case 'D': curry += 1; break;
+            }
+            distinct.insert({currx, curry});
+        }
+
+        return distinct.size();
+    }
+};
