@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool checkStrings(string s1, string s2) {
+        if (s1.size() != s2.size())
+            return false;
+        unordered_map<char, int> even, odd;
+        for (int ind = 0; ind < s1.size(); ind++) {
+            if (ind % 2 == 0) {
+                even[s1[ind]]++;
+            } else {
+                odd[s1[ind]]++;
+            }
+        }
+        for (int ind = 0; ind < s2.size(); ind++) {
+            if (ind % 2 == 0) {
+                if (even[s2[ind]] > 0) {
+                    even[s2[ind]]--;
+                    if (even[s2[ind]] == 0)
+                        even.erase(s2[ind]);
+                } else
+                    return false;
+            } else {
+                if (odd[s2[ind]] > 0) {
+                    odd[s2[ind]]--;
+                    if (odd[s2[ind]] == 0)
+                        odd.erase(s2[ind]);
+                } else
+                    return false;
+            }
+        }
+        return even.empty() && odd.empty();
+    }
+};
