@@ -1,0 +1,35 @@
+class Solution {
+    private int solve(int i, int j, int[][] coins, int neutral, int[][][] dp) {
+        int n = coins.length;
+        int m = coins[0].length;
+        if (i == n || j == m)
+            return Integer.MIN_VALUE / 2;
+        if (i == n - 1 && j == m - 1) {
+            if (coins[i][j] < 0 && neutral > 0)
+                return dp[i][j][neutral] = 0;
+            return dp[i][j][neutral] =coins[i][j];
+        }
+        if (dp[i][j][neutral] != Integer.MIN_VALUE) {
+            return dp[i][j][neutral];
+        }
+        int right = coins[i][j] + solve(i, j + 1, coins, neutral, dp);
+        if (coins[i][j] < 0 && neutral > 0) {
+            right = Math.max(right, solve(i, j + 1, coins, neutral - 1, dp));
+        }
+        int down = coins[i][j] + solve(i + 1, j, coins, neutral, dp);
+        if (coins[i][j] < 0 && neutral > 0) {
+            down = Math.max(down, solve(i + 1, j, coins, neutral - 1, dp));
+        }
+        return dp[i][j][neutral] = Math.max(right, down);
+    }
+
+    public int maximumAmount(int[][] coins) {
+        int n = coins.length;
+        int m = coins[0].length;
+        int[][][] dp = new int[n][m][3];
+        for (int[][] d : dp)
+            for (int[] r : d)
+                Arrays.fill(r, Integer.MIN_VALUE);
+        return solve(0, 0, coins, 2, dp);
+    }
+}
