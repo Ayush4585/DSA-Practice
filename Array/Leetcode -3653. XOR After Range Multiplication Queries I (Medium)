@@ -1,0 +1,21 @@
+class Solution {
+    public int xorAfterQueries(int[] nums, int[][] queries) {
+        int mod=1000000007;
+        for(int i=0; i<queries.length; i++)
+        {
+            int l=queries[i][0], r=queries[i][1], k=queries[i][2],v=queries[i][3];
+            for(int j=l; j<=r;)
+            {
+                long temp =nums[j];
+                nums[j]=(int)((temp*v)%mod);
+                j+=k;
+            }
+        }
+        int x=0;
+        for(int i=0; i<nums.length; i++)
+        {
+            x^=nums[i];
+        }
+        return x;
+    }
+}
