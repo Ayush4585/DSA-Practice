@@ -1,0 +1,30 @@
+class Solution {
+    public int minimumDistance(int[] nums) {
+        Map<Integer, List<Integer>> store = new HashMap<>();
+        
+        for (int ind = 0; ind < nums.length; ind++) {
+            store.computeIfAbsent(nums[ind], k -> new ArrayList<>()).add(ind);
+        }
+        
+        int ans = (int) 1e5;
+        
+        for (Map.Entry<Integer, List<Integer>> ele : store.entrySet()) {
+            List<Integer> temp = ele.getValue();
+            
+            if (temp.size() < 3) continue;
+            
+            
+            for (int i = 2; i < temp.size(); i++) {
+                int curr = 0;
+                curr += temp.get(i) - temp.get(i - 1);
+                curr += temp.get(i - 1) - temp.get(i - 2);
+                curr += temp.get(i) - temp.get(i - 2);
+                 ans = Math.min(ans, curr);
+            }
+            
+           
+        }
+        
+        return ans == (int) 1e5 ? -1 : ans;
+    }
+}
