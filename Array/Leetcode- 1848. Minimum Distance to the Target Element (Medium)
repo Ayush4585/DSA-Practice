@@ -1,0 +1,20 @@
+class Solution {
+    public int getMinDistance(int[] nums, int target, int start) {
+        int ans=nums.length;
+        int n=ans;
+        int distance=0;
+        while(true){
+            int left=start-distance;
+            int right=start+distance;
+            if(left>=0 && nums[left]==target){
+                return Math.abs(left-start);
+            }
+            else if(right<n && nums[right]==target){
+                return Math.abs(start-right);
+            }
+            if(left<0 && right>=n)break;
+            distance++;
+        }
+        return ans;
+    }
+}
