@@ -1,0 +1,19 @@
+class Solution {
+    public int closestTarget(String[] words, String target, int start) {
+         int n=words.length;
+        int distance=0;
+        while(true){
+            int left=(start-distance+n)%n;
+            int right=(start+distance)%n;
+            if(left>=0 && words[left].equals(target)){
+                return distance;
+            }
+            else if(right<n && words[right].equals(target)){
+                return distance;
+            }
+            if(distance>=n)break;
+            distance++;
+        }
+        return distance==n?-1:distance;
+    }
+}
