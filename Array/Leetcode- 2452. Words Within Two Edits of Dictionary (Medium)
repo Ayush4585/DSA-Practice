@@ -1,0 +1,29 @@
+class Solution {
+    int sameCharPlacement(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+        int val=0;
+        for (int i = 1; i <= n; i++) {
+            
+                if (s.charAt(i - 1) == t.charAt(i - 1)) {
+                    val++;
+                } 
+        }
+        return val;
+    }
+
+    public List<String> twoEditWords(String[] queries, String[] dictionary) {
+        List<String> ans = new ArrayList<>();
+
+        for (String query : queries) {
+            for (String word : dictionary) {
+                int lcs = sameCharPlacement(query, word);
+                if (query.length() - lcs <= 2) {  
+                    ans.add(query);
+                    break;                     
+                }
+            }
+        }
+        return ans;
+    }
+}
