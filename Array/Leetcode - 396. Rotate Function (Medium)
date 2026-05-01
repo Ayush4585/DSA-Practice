@@ -1,0 +1,24 @@
+class Solution {
+    public int maxRotateFunction(int[] nums) {
+        int n = nums.length;
+
+        int arraySum = 0;
+        for (int num : nums) {
+            arraySum += num;
+        }
+
+        int rotationScore = 0;
+        for (int i = 0; i < n; i++) {
+            rotationScore += nums[i] * i;
+        }
+
+        int maxScore = rotationScore;
+
+        for (int rotation = 1; rotation < n; rotation++) {
+            rotationScore = rotationScore + arraySum - (n * nums[n - rotation]);
+            maxScore = Math.max(maxScore, rotationScore);
+        }
+
+        return maxScore;
+    }
+}
