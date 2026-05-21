@@ -1,0 +1,40 @@
+class Solution {
+    public int digits(int ele) {
+        int count = 0;
+        while(ele > 0) {
+            count++;
+            ele /= 10;
+        }
+        return count;
+    }
+
+    public int longestCommonPrefix(int[] arr1, int[] arr2) {
+        HashSet<Integer> prefixes =new HashSet<>();
+
+        for(int num : arr1) {
+            int ele = num;
+            while(ele > 0) {
+                prefixes.add(ele);
+                ele /= 10;
+            }
+        }
+
+        int ans = 0;
+
+        for(int num : arr2) {
+            int ele = num;
+            int len = digits(num);
+            while(ele > 0) {
+                if(prefixes.contains(ele)) {
+                    ans = Math.max(ans, len);
+                    break;
+                }
+
+                ele /= 10;
+                len--;
+            }
+        }
+
+        return ans;
+    }
+}
