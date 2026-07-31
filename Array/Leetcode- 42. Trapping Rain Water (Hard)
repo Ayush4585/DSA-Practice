@@ -1,0 +1,21 @@
+class Solution {
+    public int trap(int[] height) {
+        int n=height.length;
+        int[] maxiLeft=new int[n];
+        int[] maxiRight=new int[n];
+        int ml=height[0],mr=height[n-1];
+        for(int ind=0;ind<n;ind++){
+            ml=Math.max(ml,height[ind]);
+            mr=Math.max(mr,height[n-ind-1]);
+            maxiLeft[ind]=ml;
+            maxiRight[n-ind-1]=mr;
+        }
+        int ans=0;
+        for(int ind=1;ind<n-1;ind++){
+            ans+=Math.min(maxiLeft[ind],maxiRight[ind])-height[ind];
+        }
+        return ans;
+
+
+    }
+}
