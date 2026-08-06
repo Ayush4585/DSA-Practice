@@ -1,0 +1,18 @@
+class Solution {
+    public String makeGood(String s) {
+        StringBuilder sb = new StringBuilder();
+        int n = s.length();
+        int i = 0;
+        
+        while (i < n) {
+            if (sb.length() > 0 && Math.abs(s.charAt(i) - sb.charAt(sb.length() - 1)) == 32) {
+                sb.deleteCharAt(sb.length() - 1);
+            } else {
+                sb.append(s.charAt(i));
+            }
+            i++;  
+        }
+        
+        return sb.toString();
+    }
+}
