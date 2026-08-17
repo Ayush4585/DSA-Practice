@@ -1,0 +1,31 @@
+class Solution {
+    private Integer[][] memo;
+    private int[] arr;
+
+    public int stoneGameV(int[] arr) {
+        int n = arr.length;
+        this.arr = arr;
+        memo = new Integer[n][n];
+        int totalSum = Arrays.stream(arr).sum();
+        return solve(0, n - 1, totalSum);
+    }
+
+    private int solve(int i, int j, int total) {
+        if (i >= j) return 0;
+        if (memo[i][j] != null) return memo[i][j];
+
+        int res = 0;
+        int leftSum = 0;
+        for (int k = i; k < j; k++) {
+            leftSum += arr[k];
+            int rightSum = total - leftSum;
+            if (leftSum <= rightSum) {
+                res = Math.max(res, leftSum + solve(i, k, leftSum));
+            }
+            if (rightSum <= leftSum) {
+                res = Math.max(res, rightSum + solve(k + 1, j, rightSum));
+            }
+        }
+        return memo[i][j] = res;
+    }
+}
