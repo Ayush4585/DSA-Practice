@@ -1,0 +1,32 @@
+class Solution {
+    public boolean canFinish(int n, int[][] prerequisites) {
+        int[] indegree=new int[n];
+        List<List<Integer>>adj=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int[] val: prerequisites){
+            indegree[val[0]]++;
+            adj.get(val[1]).add(val[0]);
+        }
+
+        Queue<Integer>q=new ArrayDeque<>();
+        for(int ind=0;ind<n;ind++){
+            if(indegree[ind]==0){
+                q.offer(ind);
+            }
+        }
+        int count=0;
+        while(!q.isEmpty()){
+            int root=q.poll();
+            count++;
+            for(int val: adj.get(root)){
+                indegree[val]--;
+                if(indegree[val]==0){
+                    q.offer(val);
+                }
+            }
+        }
+        return count==n;
+    }
+}
