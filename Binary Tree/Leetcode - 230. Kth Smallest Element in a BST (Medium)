@@ -1,0 +1,24 @@
+class Solution {
+    private int count = 0;
+    private int result = -1;
+
+    public int kthSmallest(TreeNode root, int k) {
+        solve(root, k);
+        return result;
+    }
+
+    private void solve(TreeNode node, int k) {
+        if (node == null || count >= k) {
+            return;
+        }
+        solve(node.right, k);
+
+        count++;
+        if (count == k) {
+            result = node.val;
+            return;
+        }
+
+        solve(node.left, k);
+    }
+}
