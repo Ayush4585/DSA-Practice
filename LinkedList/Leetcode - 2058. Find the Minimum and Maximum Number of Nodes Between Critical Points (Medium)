@@ -1,0 +1,50 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public int[] nodesBetweenCriticalPoints(ListNode head) {
+        if (head == null || head.next == null) {
+            return new int[]{-1, -1};
+        }
+
+        ListNode prevNode = head;
+        ListNode curr = head.next;
+        int index = 1;
+
+        int first = -1, prevCritical = -1;
+        int minDistance = Integer.MAX_VALUE;
+
+        while (curr.next != null) {
+            boolean isCritical =
+                (curr.val > prevNode.val && curr.val > curr.next.val) ||
+                (curr.val < prevNode.val && curr.val < curr.next.val);
+
+            if (isCritical) {
+                if (first == -1) {
+                    first = index; 
+                } else {
+                    minDistance = Math.min(minDistance, index - prevCritical);
+                }
+                prevCritical = index;
+            }
+
+            prevNode = curr;
+            curr = curr.next;
+            index++;
+        }
+
+        if (first == -1 || prevCritical == first) {
+            return new int[]{-1, -1};
+        }
+
+        int maxDistance = prevCritical - first;
+        return new int[]{minDistance, maxDistance};
+    }
+}
