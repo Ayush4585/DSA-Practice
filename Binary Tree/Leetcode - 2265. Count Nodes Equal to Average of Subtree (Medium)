@@ -1,0 +1,32 @@
+class Solution {
+    private int ans;
+
+    private int countNodes(TreeNode root) {
+        if (root == null) return 0;
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+
+    private int solve(TreeNode root) {
+        if (root == null) return 0;
+
+        int leftSum = solve(root.left);
+        int rightSum = solve(root.right);
+
+        int sum = leftSum + rightSum + root.val;
+        int totalNodes = countNodes(root); 
+
+        int average = sum / totalNodes; 
+
+        if (root.val == average) {
+            ans++;
+        }
+
+        return sum;
+    }
+
+    public int averageOfSubtree(TreeNode root) {
+        ans = 0;
+        solve(root);
+        return ans;
+    }
+}
