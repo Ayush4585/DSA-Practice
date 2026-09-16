@@ -1,0 +1,26 @@
+class Solution {
+    static final int MOD = 1_000_000_007;
+
+    public int numberOfSets(int n, int k) {
+        int[][] dp = new int[n + 1][k + 1];
+        long[] suffixSum = new long[k + 1];
+
+        for (int ind = 0; ind <= n; ind++) {
+            dp[ind][0] = 1;
+        }
+       
+
+        for (int ind = n - 1; ind >= 0; ind--) {
+            for (int kk = 1; kk <= k; kk++) {
+                long nt = dp[ind + 1][kk];
+                long take = suffixSum[kk - 1];      
+                dp[ind][kk] = (int) ((nt + take) % MOD);
+            }
+            for (int kk = 0; kk <= k; kk++) {
+                suffixSum[kk] = (suffixSum[kk] + dp[ind][kk]) % MOD;
+            }
+        }
+
+        return dp[0][k];
+    }
+}
