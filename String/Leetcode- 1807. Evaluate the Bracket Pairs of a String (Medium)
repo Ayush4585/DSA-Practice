@@ -1,0 +1,29 @@
+class Solution {
+    public String evaluate(String s, List<List<String>> knowledge) {
+        Map<String, String> store = new HashMap<>();
+        for (List<String> val : knowledge) {
+            store.put(val.get(0), val.get(1));
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        StringBuilder key = new StringBuilder();
+        boolean open = false;
+        
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                open = true;
+                key.setLength(0);
+            } else if (c == ')') {
+                open = false;
+                String k = key.toString();
+                sb.append(store.getOrDefault(k, "?"));
+            } else if (open) {
+                key.append(c);
+            } else {
+                sb.append(c);
+            }
+        }
+        
+        return sb.toString();
+    }
+}
