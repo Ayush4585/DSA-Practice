@@ -1,0 +1,31 @@
+class Solution {
+    private Boolean[][][] memo;
+    
+    private boolean solve(int i, int j, int balance, char[][] grid, int n, int m) {
+        if (i >= n || j >= m) return false;
+        
+        balance += grid[i][j] == '(' ? 1 : -1;
+        if (balance < 0) return false; 
+        
+        if (i == n - 1 && j == m - 1) {
+            return balance == 0;
+        }
+        
+        if (memo[i][j][balance] != null) {
+            return memo[i][j][balance];
+        }
+        
+        boolean down = solve(i + 1, j, balance, grid, n, m);
+        boolean right = solve(i, j + 1, balance, grid, n, m);
+        
+        boolean result = down || right;
+        memo[i][j][balance] = result;
+        return result;
+    }
+    
+    public boolean hasValidPath(char[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        memo = new Boolean[n][m][n + m + 1];
+        return solve(0, 0, 0, grid, n, m);
+    }
+}
