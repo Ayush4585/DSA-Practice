@@ -1,0 +1,21 @@
+class Solution {
+    public int minAddToMakeValid(String s) {
+        Stack<Character>store=new Stack<>();
+
+        int ans=0;
+        for(char ch: s.toCharArray()){
+            if(ch=='('){
+                store.push(ch);
+            }
+            else{
+                if(store.isEmpty()){
+                    ans++;
+                }else{
+                    store.pop();
+                }
+            }
+        }
+        ans+=store.size();
+        return ans;
+    }
+}
