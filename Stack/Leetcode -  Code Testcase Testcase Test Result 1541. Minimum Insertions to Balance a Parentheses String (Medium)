@@ -1,0 +1,27 @@
+class Solution {
+    public int minInsertions(String s) {
+        Stack<Character> store = new Stack<>();
+        int j = 0, n = s.length();
+        int ans = 0;
+        while (j < n) {
+            if (s.charAt(j) == '(') {
+                store.push('(');
+                j++;
+            } else {
+                if (!store.isEmpty()) {
+                    store.pop();
+                } else {
+                    ans++; 
+                }
+                j++;
+
+                if (j < n && s.charAt(j) == ')') {
+                    j++;
+                } else {
+                    ans++; 
+                }
+            }
+        }
+        return ans + 2 * store.size(); 
+    }
+}
